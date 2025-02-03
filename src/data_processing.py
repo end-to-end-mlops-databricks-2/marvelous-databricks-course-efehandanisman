@@ -1,4 +1,3 @@
-
 from pyspark.sql import SparkSession
 from pyspark.sql import functions as F
 from pyspark.sql.functions import current_timestamp, to_utc_timestamp
@@ -7,10 +6,7 @@ from src.config import ProjectConfig
 
 
 class DataProcessor:
-    def __init__(self,
-                 df,
-                 config: ProjectConfig):
-
+    def __init__(self, df, config: ProjectConfig):
         self.df = df
         self.config = config
 
@@ -26,10 +22,7 @@ class DataProcessor:
         """
         self.df = self.df.select(self.config.num_features + config.cat_features + [config.target])
 
-    def spark_train_test_split(self,
-                               column_name,
-                               test_size: float = 0.2,
-                               seed: int = 42):
+    def spark_train_test_split(self, column_name, test_size: float = 0.2, seed: int = 42):
         """
         Split a PySpark DataFrame by a column value into training and testing sets.
 
@@ -60,19 +53,27 @@ class DataProcessor:
         """Save the train and test sets into Databricks tables."""
 
         train_set_with_timestamp = self.train_df.withColumn(
-            "update_timestamp_utc", to_utc_timestamp(current_timestamp(), "UTC"))
+            "update_timestamp_utc", to_utc_timestamp(current_timestamp(), "UTC")
+        )
 
         test_set_with_timestamp = self.test_df.withColumn(
-            "update_timestamp_utc", to_utc_timestamp(current_timestamp(), "UTC"))
+            "update_timestamp_utc", to_utc_timestamp(current_timestamp(), "UTC")
+        )
 
         train_set_with_timestamp.write.mode("append").saveAsTable(
-            f"{self.config.catalog_name}.{self.config.schema_name}.train_set")
+            f"{self.config.catalog_name}.{self.config.schema_name}.train_set"
+        )
 
         test_set_with_timestamp.write.mode("append").saveAsTable(
-            f"{self.config.catalog_name}.{self.config.schema_name}.test_set")
+            f"{self.config.catalog_name}.{self.config.schema_name}.test_set"
+        )
 
-        spark.sql(f"ALTER TABLE {self.config.catalog_name}.{self.config.schema_name}.train_set"
-          "SET TBLPROPERTIES (delta.enableChangeDataFeed = true);")
+        spark.sql(
+            f"ALTER TABLE {self.config.catalog_name}.{self.config.schema_name}.train_set"
+            "SET TBLPROPERTIES (delta.enableChangeDataFeed = true);"
+        )
 
-        spark.sql(f"ALTER TABLE {self.config.catalog_name}.{self.config.schema_name}.test_set "
-          "SET TBLPROPERTIES (delta.enableChangeDataFeed = true);")
+        spark.sql(
+            f"ALTER TABLE {self.config.catalog_name}.{self.config.schema_name}.test_set "
+            "SET TBLPROPERTIES (delta.enableChangeDataFeed = true);"
+        )
