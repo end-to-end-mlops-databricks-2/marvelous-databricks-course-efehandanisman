@@ -10,7 +10,7 @@ cat_features:
   - airline
   - traveller_type
   - cabin
-  
+
 num_features:
   - seat_comfort
   - cabin_service
