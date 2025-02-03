@@ -49,4 +49,5 @@ ignore = [
 
 [tool.ruff.format]
 indent-style = "space"
+[tool.ruff]
 line-length = 120
