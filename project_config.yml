@@ -1,16 +1,23 @@
 catalog_name: mlops_dev
 schema_name: efedanis
-
+data_path: "/Volumes/mlops_dev/efedanis/data/airline_reviews.csv"
 parameters:
   learning_rate: 0.01
   n_estimators: 1000
   max_depth: 6
 
+cat_features:
+  - airline
+  - traveller_type
+  - cabin
+  
 num_features:
   - seat_comfort
   - cabin_service
-  - food_bev;entertainment
+  - food_bev
+  - entertainment
   - ground_service
-  - value_for_money,
+  - value_for_money
+  - overall
 
 target: recommended
