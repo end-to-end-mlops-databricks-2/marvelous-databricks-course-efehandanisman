@@ -36,7 +36,6 @@ where =["src"]
 include = ["house_price*"]
 
 [tool.ruff.lint]
-line-length = 120
 select = [
     "F",  # pyflakes rules
     "E",  # pycodestyle error rules
@@ -50,3 +49,4 @@ ignore = [
 
 [tool.ruff.format]
 indent-style = "space"
+line-length = 120
