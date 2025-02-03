@@ -1,11 +1,10 @@
-import pandas as pd
-from src.config import ProjectConfig
-import datetime
-from sklearn.model_selection import train_test_split
-from pyspark.sql.functions import current_timestamp, to_utc_timestamp
-from datetime import datetime
-from pyspark.sql import SparkSession, DataFrame
+
+from pyspark.sql import SparkSession
 from pyspark.sql import functions as F
+from pyspark.sql.functions import current_timestamp, to_utc_timestamp
+
+from src.config import ProjectConfig
+
 
 class DataProcessor:
     def __init__(self,
