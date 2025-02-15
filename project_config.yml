@@ -5,7 +5,7 @@ experiment_name_basic: /Shared/airline-reviews-basic
 data_path: "/Volumes/mlops_dev/efedanis/data/airline_reviews.csv"
 parameters:
   learning_rate: 0.01
-  n_estimators: 1000
+  n_estimators: 500
   max_depth: 6
 
 cat_features:
