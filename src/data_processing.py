@@ -1,6 +1,6 @@
 from pyspark.sql import SparkSession
 from pyspark.sql import functions as F
-from pyspark.sql.functions import current_timestamp, to_utc_timestamp, monotonically_increasing_id
+from pyspark.sql.functions import current_timestamp, monotonically_increasing_id, to_utc_timestamp
 
 from src.config import ProjectConfig
 

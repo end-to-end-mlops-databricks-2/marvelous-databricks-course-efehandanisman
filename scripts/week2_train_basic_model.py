@@ -1,8 +1,8 @@
 import mlflow
 from pyspark.sql import SparkSession
 
-from src.config import ProjectConfig, Tags
 from src.airline_reviews.models.basic_model import BasicModel
+from src.config import ProjectConfig, Tags
 
 mlflow.set_tracking_uri("databricks")
 mlflow.set_registry_uri("databricks-uc")
