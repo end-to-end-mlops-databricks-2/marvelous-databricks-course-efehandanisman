@@ -29,9 +29,6 @@ class BasicModel:
         self.catalog_name = self.config.catalog_name
         self.schema_name = self.config.schema_name
 
-        self.feature_table_name = f"{self.catalog_name}.{self.schema_name}.airline_features"
-        self.function_name = f"{self.catalog_name}.{self.schema_name}.calculate_house_age"
-
         self.experiment_name = self.config.experiment_name_basic
         self.tags = tags.dict()
 
@@ -84,7 +81,6 @@ class BasicModel:
         """
         Log the model.
         """
-        mlflow.set_experiment(f"/Shared/{self.catalog_name}/{self.schema_name}/self.experiment_name")
         with mlflow.start_run(tags=self.tags) as run:
             self.run_id = run.info.run_id
 
