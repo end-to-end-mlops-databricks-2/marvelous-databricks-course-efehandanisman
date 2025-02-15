@@ -44,7 +44,8 @@ class BasicModel:
         Target (y_train, y_test)
         """
         logger.info("🔄 Loading data from Databricks tables...")
-        self.train_set = self.spark.table(f"{self.catalog_name}.{self.schema_name}.train_set").limit(20000).toPandas()
+        self.train_set_spark = self.spark.table(f"{self.catalog_name}.{self.schema_name}.train_set").limit(20000)
+        self.train_set = self.train_set_spark.toPandas()
         self.test_set = self.spark.table(f"{self.catalog_name}.{self.schema_name}.test_set").limit(5000).toPandas()
         self.data_version = "0"  # describe history -> retrieve
 
