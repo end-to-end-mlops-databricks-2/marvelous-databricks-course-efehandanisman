@@ -1,0 +1,15 @@
+artifact_uri: file:///c:/Users/90533/marvelous-databricks-course-efehandanisman/notebooks/mlruns/644584578867366638/56f356b57275461bb9d4202c6d13ae8d/artifacts
+end_time: 1739618437362
+entry_point_name: ''
+experiment_id: '644584578867366638'
+lifecycle_stage: active
+run_id: 56f356b57275461bb9d4202c6d13ae8d
+run_name: sneaky-rat-330
+run_uuid: 56f356b57275461bb9d4202c6d13ae8d
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1739618428320
+status: 3
+tags: []
+user_id: '90533'

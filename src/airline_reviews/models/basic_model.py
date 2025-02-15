@@ -8,7 +8,7 @@ from mlflow import MlflowClient
 from mlflow.models import infer_signature
 from pyspark.sql import SparkSession
 from sklearn.compose import ColumnTransformer
-from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, classification_report
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder
 from src.config import ProjectConfig, Tags
@@ -91,20 +91,21 @@ class BasicModel:
             y_pred = self.pipeline.predict(self.X_test)
 
             # Evaluate metrics
-            mse = mean_squared_error(self.y_test, y_pred)
-            mae = mean_absolute_error(self.y_test, y_pred)
-            r2 = r2_score(self.y_test, y_pred)
+            accuracy = accuracy_score(self.y_test, y_pred)
+            precision = precision_score(self.y_test, y_pred, average='weighted')
+            recall = recall_score(self.y_test, y_pred, average='weighted')
+            f1 = f1_score(self.y_test, y_pred, average='weighted')
 
-            logger.info(f"📊 Mean Squared Error: {mse}")
-            logger.info(f"📊 Mean Absolute Error: {mae}")
-            logger.info(f"📊 R2 Score: {r2}")
+            logger.info(f"📊 Accuracy: {accuracy}")
+            logger.info(f"📊 Precision: {precision}")
+            logger.info(f"📊 F1 Score: {f1}")
 
             # Log parameters and metrics
             mlflow.log_param("model_type", "LightGBM with preprocessing")
             mlflow.log_params(self.parameters)
-            mlflow.log_metric("mse", mse)
-            mlflow.log_metric("mae", mae)
-            mlflow.log_metric("r2_score", r2)
+            mlflow.log_metric("accuracy", accuracy)
+            mlflow.log_metric("precision", precision)
+            mlflow.log_metric("f1_score", f1)
 
             # Log the model
             signature = infer_signature(model_input=self.X_train, model_output=y_pred)
@@ -125,7 +126,7 @@ class BasicModel:
         logger.info("🔄 Registering the model in UC...")
         registered_model = mlflow.register_model(
             model_uri=f"runs:/{self.run_id}/lightgbm-pipeline-model",
-            name=f"{self.catalog_name}.{self.schema_name}.airlin_reviews_basic",
+            name=f"{self.catalog_name}.{self.schema_name}.airline_reviews_basic",
             tags=self.tags,
         )
         logger.info(f"✅ Model registered as version {registered_model.version}.")
@@ -134,7 +135,7 @@ class BasicModel:
 
         client = MlflowClient()
         client.set_registered_model_alias(
-            name=f"{self.catalog_name}.{self.schema_name}.airlin_reviews_basic",
+            name=f"{self.catalog_name}.{self.schema_name}.airline_reviews_basic",
             alias="latest-model",
             version=latest_version,
         )
