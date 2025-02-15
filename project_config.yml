@@ -7,7 +7,6 @@ parameters:
   max_depth: 6
 
 cat_features:
-  - airline
   - traveller_type
   - cabin
 
@@ -18,6 +17,5 @@ num_features:
   - entertainment
   - ground_service
   - value_for_money
-  - overall
 
 target: recommended
