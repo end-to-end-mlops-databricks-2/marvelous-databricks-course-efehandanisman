@@ -36,23 +36,23 @@ class BasicModel:
         self.tags = tags.dict()
 
 
-        def load_data(self):
-            """
-            Load training and testing data from Delta tables.
-            Splits data into:
-            Features (X_train, X_test)
-            Target (y_train, y_test)
-            """
-            logger.info("🔄 Loading data from Databricks tables...")
-            self.train_set_spark = self.spark.table(f"{self.catalog_name}.{self.schema_name}.train_set").toPandas()
-            self.test_set = self.spark.table(f"{self.catalog_name}.{self.schema_name}.test_set").toPandas()
-            self.data_version = "0"  # describe history -> retrieve
+    def load_data(self):
+        """
+        Load training and testing data from Delta tables.
+        Splits data into:
+        Features (X_train, X_test)
+        Target (y_train, y_test)
+        """
+        logger.info("🔄 Loading data from Databricks tables...")
+        self.train_set = self.spark.table(f"{self.catalog_name}.{self.schema_name}.train_set").limit(20000).toPandas()
+        self.test_set = self.spark.table(f"{self.catalog_name}.{self.schema_name}.test_set").limit(5000).toPandas()
+        self.data_version = "0"  # describe history -> retrieve
 
-            self.X_train = self.train_set[self.num_features + self.cat_features]
-            self.y_train = self.train_set[self.target]
-            self.X_test = self.test_set[self.num_features + self.cat_features]
-            self.y_test = self.test_set[self.target]
-            logger.info("✅ Data successfully loaded.")
+        self.X_train = self.train_set[self.num_features + self.cat_features]
+        self.y_train = self.train_set[self.target]
+        self.X_test = self.test_set[self.num_features + self.cat_features]
+        self.y_test = self.test_set[self.target]
+        logger.info("✅ Data successfully loaded.")
 
     def prepare_features(self):
         """
