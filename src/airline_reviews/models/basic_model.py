@@ -20,8 +20,6 @@ class BasicModel:
         """
         self.config = config
         self.spark = spark
-        self.workspace = WorkspaceClient()
-        self.fe = feature_engineering.FeatureEngineeringClient()
 
         # Extract settings from the config
         self.num_features = self.config.num_features
