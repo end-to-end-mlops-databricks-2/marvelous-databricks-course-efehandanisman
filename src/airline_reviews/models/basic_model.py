@@ -84,7 +84,7 @@ class BasicModel:
         """
         Log the model.
         """
-        mlflow.set_experiment(self.experiment_name)
+        mlflow.set_experiment(f"/Shared/{self.catalog_name}/{self.schema_name}/self.experiment_name")
         with mlflow.start_run(tags=self.tags) as run:
             self.run_id = run.info.run_id
 
