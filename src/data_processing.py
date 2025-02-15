@@ -16,6 +16,12 @@ class DataProcessor:
         """
         self.df = self.df.dropna(how="all")
 
+    def prepare_target(self):
+        '''
+        Convert target into 0-1.
+        '''
+        self.df = self.df.withColumn("recommended", F.when(self.df.recommended == "Yes", 1).otherwise(0))
+
     def select_relevant_columns(self, config: ProjectConfig):
         """
         Drop unnecessary columns
@@ -76,12 +82,9 @@ class DataProcessor:
             f"{self.config.catalog_name}.{self.config.schema_name}.test_set"
         )
 
-        spark.sql(
-            f"ALTER TABLE {self.config.catalog_name}.{self.config.schema_name}.train_set"
-            "SET TBLPROPERTIES (delta.enableChangeDataFeed = true);"
-        )
+        query= f"ALTER TABLE {self.config.catalog_name}.{self.config.schema_name}.train_set SET TBLPROPERTIES (delta.enableChangeDataFeed = true);"
 
-        spark.sql(
-            f"ALTER TABLE {self.config.catalog_name}.{self.config.schema_name}.test_set "
-            "SET TBLPROPERTIES (delta.enableChangeDataFeed = true);"
-        )
+        spark.sql(query)
+
+        query =f"ALTER TABLE {self.config.catalog_name}.{self.config.schema_name}.test_set SET TBLPROPERTIES (delta.enableChangeDataFeed = true);"
+        spark.sql(query)
