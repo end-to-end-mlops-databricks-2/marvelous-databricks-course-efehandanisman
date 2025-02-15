@@ -13,6 +13,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder
 from src.config import ProjectConfig, Tags
 
+
 class BasicModel:
     def __init__(self, config: ProjectConfig, tags: Tags, spark: SparkSession):
         """
@@ -31,7 +32,6 @@ class BasicModel:
 
         self.experiment_name = self.config.experiment_name_basic
         self.tags = tags.dict()
-
 
     def load_data(self):
         """
@@ -89,9 +89,9 @@ class BasicModel:
 
             # Evaluate metrics
             accuracy = accuracy_score(self.y_test, y_pred)
-            precision = precision_score(self.y_test, y_pred, average='weighted')
-            recall = recall_score(self.y_test, y_pred, average='weighted')
-            f1 = f1_score(self.y_test, y_pred, average='weighted')
+            precision = precision_score(self.y_test, y_pred, average="weighted")
+            recall = recall_score(self.y_test, y_pred, average="weighted")
+            f1 = f1_score(self.y_test, y_pred, average="weighted")
 
             logger.info(f"📊 Accuracy: {accuracy}")
             logger.info(f"📊 Precision: {precision}")
