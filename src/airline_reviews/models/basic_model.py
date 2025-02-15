@@ -81,6 +81,7 @@ class BasicModel:
         """
         Log the model.
         """
+        mlflow.set_experiment(self.experiment_name)
         with mlflow.start_run(tags=self.tags) as run:
             self.run_id = run.info.run_id
 
