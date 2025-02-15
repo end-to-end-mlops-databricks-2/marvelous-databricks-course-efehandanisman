@@ -3,7 +3,7 @@ from datetime import datetime
 import mlflow
 import pandas as pd
 from lightgbm import LGBMClassifier
-from logging import logger
+from loguru import logger
 from mlflow import MlflowClient
 from mlflow.models import infer_signature
 from pyspark.sql import SparkSession
