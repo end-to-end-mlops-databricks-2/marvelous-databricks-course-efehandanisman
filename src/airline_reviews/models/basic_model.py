@@ -11,9 +11,9 @@ from sklearn.compose import ColumnTransformer
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder
-from src.config import ProjectConfig
+from src.config import ProjectConfig, Tags
 
-class FeatureLookUpModel:
+class BasicModel:
     def __init__(self, config: ProjectConfig, tags: Tags, spark: SparkSession):
         """
         Initialize the model with project configuration.
