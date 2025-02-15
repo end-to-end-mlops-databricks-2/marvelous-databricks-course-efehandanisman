@@ -1,7 +1,6 @@
 catalog_name: mlops_dev
 schema_name: efedanis
 experiment_name_basic: /Shared/airline-reviews-basic
-experiment_name_fe: /Shared/house-prices-fe
 
 data_path: "/Volumes/mlops_dev/efedanis/data/airline_reviews.csv"
 parameters:

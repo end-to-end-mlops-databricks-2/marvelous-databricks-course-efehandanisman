@@ -32,7 +32,7 @@ class BasicModel:
         self.feature_table_name = f"{self.catalog_name}.{self.schema_name}.airline_features"
         self.function_name = f"{self.catalog_name}.{self.schema_name}.calculate_house_age"
 
-        self.experiment_name = self.config.experiment_name_fe
+        self.experiment_name = self.config.experiment_name_basic
         self.tags = tags.dict()
 
 
