@@ -1,6 +1,6 @@
 from pyspark.sql import SparkSession
 from pyspark.sql import functions as F
-from pyspark.sql.functions import current_timestamp, to_utc_timestamp
+from pyspark.sql.functions import current_timestamp, monotonically_increasing_id, to_utc_timestamp
 
 from src.config import ProjectConfig
 
@@ -16,11 +16,24 @@ class DataProcessor:
         """
         self.df = self.df.dropna(how="all")
 
+    def prepare_target(self):
+        """
+        Convert target into 0-1.
+        """
+        self.df = self.df.withColumn("recommended", F.when(self.df.recommended == "Yes", 1).otherwise(0))
+
     def select_relevant_columns(self, config: ProjectConfig):
         """
         Drop unnecessary columns
         """
         self.df = self.df.select(self.config.num_features + config.cat_features + [config.target])
+
+    def create_unique_id(self):
+        """
+        Create a unique id as PK
+        """
+
+        self.df = self.df.withColumn("unique_id", monotonically_increasing_id())
 
     def spark_train_test_split(self, column_name, test_size: float = 0.2, seed: int = 42):
         """
@@ -68,12 +81,9 @@ class DataProcessor:
             f"{self.config.catalog_name}.{self.config.schema_name}.test_set"
         )
 
-        spark.sql(
-            f"ALTER TABLE {self.config.catalog_name}.{self.config.schema_name}.train_set"
-            "SET TBLPROPERTIES (delta.enableChangeDataFeed = true);"
-        )
+        query = f"ALTER TABLE {self.config.catalog_name}.{self.config.schema_name}.train_set SET TBLPROPERTIES (delta.enableChangeDataFeed = true);"
 
-        spark.sql(
-            f"ALTER TABLE {self.config.catalog_name}.{self.config.schema_name}.test_set "
-            "SET TBLPROPERTIES (delta.enableChangeDataFeed = true);"
-        )
+        spark.sql(query)
+
+        query = f"ALTER TABLE {self.config.catalog_name}.{self.config.schema_name}.test_set SET TBLPROPERTIES (delta.enableChangeDataFeed = true);"
+        spark.sql(query)
